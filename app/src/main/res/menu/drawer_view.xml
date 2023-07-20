@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/person"
+            android:title="Profile"
+            android:icon="@drawable/baseline_person_24"
+            android:iconTint="@color/black"/>
+        <item
+            android:id="@+id/orders_nav_item"
+            android:title="Orders" />
+        <item
+            android:id="@+id/addItem_nav_item"
+            android:title="Add Item" />
+        <item
+            android:id="@+id/settings_nav_item"
+            android:title="Settings" />
+        <item
+            android:id="@+id/chat_nav_item"
+            android:title="Chat" />
+    </group>
+</menu>

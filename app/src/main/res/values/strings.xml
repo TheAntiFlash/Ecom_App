@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Ecom App</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="yahya">Yahya</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="google">GOOGLE</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="facebook">FACEBOOK</string>
+    <string name="don_t_have_an_account_signup">Don\'t have an account? SignUp</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="add_profile_picture">Add profile Picture</string>
+    <string name="email_has_incorrect_format">email has incorrect format.</string>
+    <string name="email_cannot_be_empty">email cannot be empty.</string>
+    <string name="password_is_not_same">Password is not same.</string>
+    <string name="password_cannot_be_empty">Password cannot be empty.</string>
+    <string name="password_must_be_atleast_8_characters">password must be atLeast 8 characters.</string>
+    <string name="password_conditions">password must contain at least \n1 Uppercase \n1 Lowercase \n1 number.</string>
+    <string name="username_must_be_atleast_3_characters">username must be atLeast 3 characters.</string>
+    <string name="username_cannot_contain_special_characters">username cannot contain special characters.</string>
+    <string name="username_cannot_be_empty">username cannot be empty.</string>
+
+
+    <!--    //same keys -->
+    <string name="login">login</string>
+
+    <!--    Splash-->
+    <string name="splash_app_name">login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_fragment">Home Screen</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="profile_fragment">Profile Screen</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="example_fragment">Example Fragment</string>
+    <string name="title_activity_nav_drawer_test">navDrawerTest</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <!--    Login -->
+    <!--    -->
+    <!--    SignUp-->
+    <!--    -->
+
+
+</resources>

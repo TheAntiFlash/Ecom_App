@@ -16,9 +16,14 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/exampleFragment"
-        android:name="com.example.ecomapp.ui.fragment.ExampleFragment"
+        android:name="com.example.ecomapp.ui.fragment.ChatFragment"
         android:label="fragment_example"
-        tools:layout="@layout/fragment_example" />
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.ecomapp.ui.fragment.CartFragment"
+        android:label="CartFragment"
+        tools:layout="@layout/fragment_cart"/>
 
 
 </navigation>

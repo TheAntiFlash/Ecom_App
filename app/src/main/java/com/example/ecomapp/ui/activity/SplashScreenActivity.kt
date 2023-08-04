@@ -10,7 +10,10 @@ import android.util.Log
 import android.view.animation.AnimationUtils
 import com.example.ecomapp.R
 import com.example.ecomapp.databinding.ActivitySplashScreenBinding
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySplashScreenBinding

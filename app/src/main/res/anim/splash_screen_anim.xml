@@ -10,9 +10,9 @@
         android:toAlpha="1.0" />
     <scale
         android:duration="1500"
-        android:fromXScale="0dp"
-        android:toXScale="300dp"
-        android:fromYScale="0dp"
-        android:toYScale="300dp"
+        android:fromXScale="0%"
+        android:toXScale="100%"
+        android:fromYScale="0%"
+        android:toYScale="100%"
         />
 </set>

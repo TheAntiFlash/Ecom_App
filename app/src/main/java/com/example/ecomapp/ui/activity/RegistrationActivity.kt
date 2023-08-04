@@ -1,9 +1,11 @@
 package com.example.ecomapp.ui.activity
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -23,6 +25,10 @@ class RegistrationActivity : AppCompatActivity() {
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.etUsername.text =  SpannableStringBuilder("Yahya123")
+        binding.etPassword.text =  SpannableStringBuilder("TestingPassword123")
+        binding.etConfirmPassword.text =  SpannableStringBuilder("TestingPassword123")
+        binding.etEmail.text =  SpannableStringBuilder("yahya@gmail.com")
 
         init()
     }
@@ -50,9 +56,15 @@ class RegistrationActivity : AppCompatActivity() {
                 binding.etPasswordContainer.error = ""
                 binding.etEmailContainer.error = ""
                 binding.etConfirmPasswordContainer.error = ""
+                startActivity(Intent(this, DashboardActivity::class.java))
+                finish()
             } else {
                 Log.i("signUp", "Failure")
             }
+        }
+
+        binding.tvSignInBottom.setOnClickListener {
+            finish()
         }
 
         binding.flProfilePictureFrame.setOnClickListener {

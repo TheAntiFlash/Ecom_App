@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/person"
+            android:id="@+id/profile_nav_item"
             android:title="Profile"
             android:icon="@drawable/baseline_person_24"
             android:iconTint="@color/black"/>
@@ -11,12 +11,12 @@
             android:title="Orders" />
         <item
             android:id="@+id/addItem_nav_item"
+            android:icon="@drawable/baseline_post_add_24"
             android:title="Add Item" />
         <item
             android:id="@+id/settings_nav_item"
+            android:icon="@drawable/sharp_settings_24"
             android:title="Settings" />
-        <item
-            android:id="@+id/chat_nav_item"
-            android:title="Chat" />
+
     </group>
 </menu>

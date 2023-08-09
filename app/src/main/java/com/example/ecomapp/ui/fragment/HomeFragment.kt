@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.viewModels
+import com.example.ecomapp.domain.model.Response.Success
+import com.example.ecomapp.domain.model.Response.Failure
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ecomapp.R
@@ -12,8 +16,9 @@ import com.example.ecomapp.databinding.FragmentHomeBinding
 import com.example.ecomapp.ui.adapter.ProductItemAdapter
 import com.example.ecomapp.ui.model.ProductItemUiModel
 import com.example.ecomapp.vm.ProductViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
@@ -36,19 +41,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
+        viewModel.loadProducts()
         val recyclerView = binding.recyclerViewLayout
         recyclerView.layoutManager = GridLayoutManager(context,2)
-        for( i in 1..10) {
-            data.add(
-                ProductItemUiModel(R.drawable.placeholder_image, "item $i", i*100, i*2 , i*80, true)
-            )
-        }
-        for(i in 11..20) {
-            data.add(
-                ProductItemUiModel(R.drawable.placeholder_image, "item $i", i*100, i*2 , 0, false)
-            )
-        }
-        val adapter = ProductItemAdapter(data)
+        val adapter = ProductItemAdapter()
         recyclerView.adapter = adapter
+
+        viewModel.listOfProducts.observe(viewLifecycleOwner) {
+            when (it) {
+                is Success -> adapter.setProducts(it.data)
+                is Failure -> Toast.makeText(activity, "Error Loading Products", Toast.LENGTH_LONG).show()
+                else -> Unit
+            }
+        }
+
     }
 }

@@ -7,10 +7,15 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 
-@InstallIn(ViewModelComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
     @Binds
     abstract fun bindProductRepository(impl: FirestoreProductRepository): ProductRepository
 }
+
+/*@InstallIn(SingletonComponent::class)
+@Module*/
+

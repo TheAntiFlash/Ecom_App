@@ -25,12 +25,12 @@ class RegistrationActivity : AppCompatActivity() {
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        init()
         binding.etUsername.text =  SpannableStringBuilder("Yahya123")
         binding.etPassword.text =  SpannableStringBuilder("TestingPassword123")
         binding.etConfirmPassword.text =  SpannableStringBuilder("TestingPassword123")
         binding.etEmail.text =  SpannableStringBuilder("yahya@gmail.com")
 
-        init()
     }
 
     private fun init () {

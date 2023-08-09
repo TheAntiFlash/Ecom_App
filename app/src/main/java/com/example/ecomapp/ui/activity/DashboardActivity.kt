@@ -10,7 +10,9 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.ecomapp.R
 import com.example.ecomapp.databinding.ActivityDashboardBinding
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle

@@ -25,10 +25,10 @@
         app:layout_constraintTop_toTopOf="parent" />-->
 
     <FrameLayout
-        android:id="@+id/flProfilePictureFrame"
+        android:id="@+id/flProductImageFrame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,14 +36,15 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivProductImage"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            app:civ_border_overlay="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:civ_border_color="@color/white"
             android:elevation="@dimen/_2sdp"
-            android:src="@drawable/placeholder_image"
+            android:src="@drawable/baseline_file_upload_24"
             app:civ_circle_background_color="@color/white"
 
             />
@@ -55,7 +56,6 @@
             android:elevation="@dimen/_4sdp"
             android:contentDescription="@string/add_profile_picture"
             android:layout_gravity="bottom|center"
-            android:src="@drawable/icon_edit"
             app:tint="@color/black" />
 
     </FrameLayout>
@@ -69,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="25dp"
@@ -179,7 +179,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/price"
-                    android:inputType="textEmailAddress"
+                    android:inputType="number"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,10 +209,11 @@
                     android:id="@+id/etDiscountPrice"
                     style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
                     android:layout_marginTop="16dp"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Discount"
-                    android:inputType="textPassword"
+                    android:inputType="number"
                     />
 
                 />
@@ -220,7 +221,7 @@
 
 
             <Button
-                android:id="@+id/btSignUp"
+                android:id="@+id/btAddItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="28dp"
@@ -235,6 +236,20 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toBottomOf="@+id/etDiscountPriceContainer" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_indicator_addItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/btAddItem"
+                app:layout_constraintStart_toStartOf="@id/btAddItem"
+                app:layout_constraintBottom_toBottomOf="@id/btAddItem"
+                app:layout_constraintTop_toTopOf="@id/btAddItem"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorColor="@color/white"
+                android:indeterminateBehavior="cycle"
+                />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier2"

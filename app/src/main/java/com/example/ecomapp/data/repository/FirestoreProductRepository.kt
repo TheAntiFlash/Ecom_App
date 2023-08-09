@@ -4,17 +4,21 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.ecomapp.domain.model.Product
+import com.example.ecomapp.domain.model.Response
 import com.example.ecomapp.domain.model.Response.Failure
 import com.example.ecomapp.domain.model.Response.Success
+import com.example.ecomapp.domain.model.toProduct
+import com.example.ecomapp.domain.repository.BooleanResponse
 import com.example.ecomapp.domain.repository.ProductRepository
 import com.example.ecomapp.domain.repository.ProductsResponse
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
 class FirestoreProductRepository @Inject constructor(): ProductRepository {
-    override fun getAllProducts(): LiveData<ProductsResponse>? {
+    override fun getAllProducts(): LiveData<ProductsResponse> {
         val products = MutableLiveData<ProductsResponse>()
         val productsDocRef = Firebase.firestore.collection("Products")
 
@@ -26,21 +30,27 @@ class FirestoreProductRepository @Inject constructor(): ProductRepository {
             else {
                 var productsList = mutableListOf<Product>()
 
-                for(doc in value!!) {
-                    productsList.add(Product(
-                        id = doc.id,
-                        name = doc.data["name"] as String,
-                        price = doc.data["price"] as Int,
-                        discountPrice = null,
-                        imageUrl = doc.data["imageUrl"] as String,
-                        quantity = doc.data["quantity"] as Int
-                    ))
-                }
+                for(doc in value!!) { productsList.add(doc.toProduct()) }
+
+                products.value = Success(productsList)
             }
         }
+        return products
     }
 
-    override suspend fun addProduct(product: Product): Success<Boolean> {
-        return Success(true)
+    override suspend fun addProduct(product: Product): LiveData<BooleanResponse> { //make this livedata
+        val productsDocRef = Firebase.firestore.collection("Products")
+        val response = MutableLiveData<BooleanResponse>(Success(false))
+        productsDocRef
+            .add(product.toMap())
+            .addOnSuccessListener {
+                response.value = Success(true)
+            }
+            .addOnFailureListener { e ->
+                response.value = Failure(e)
+                Log.e( "Product", "Error Adding Product", e )
+            }.await()
+
+        return response
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.ecomapp.domain.model.Response.Success
 import com.example.ecomapp.domain.model.Response.Failure
 import androidx.fragment.app.viewModels
@@ -23,7 +24,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
     private var data = mutableListOf<ProductItemUiModel>()
-    private val viewModel by viewModels<ProductViewModel>()
+    private val viewModel by activityViewModels<ProductViewModel>()
 
 
 
@@ -44,7 +45,7 @@ class HomeFragment : Fragment() {
         viewModel.loadProducts()
         val recyclerView = binding.recyclerViewLayout
         recyclerView.layoutManager = GridLayoutManager(context,2)
-        val adapter = ProductItemAdapter()
+        val adapter = ProductItemAdapter(viewModel.addToCart)
         recyclerView.adapter = adapter
 
         viewModel.listOfProducts.observe(viewLifecycleOwner) {

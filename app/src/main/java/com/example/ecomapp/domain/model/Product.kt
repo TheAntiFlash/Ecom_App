@@ -2,6 +2,7 @@ package com.example.ecomapp.domain.model
 
 import android.util.Log
 import com.example.ecomapp.domain.repository.Products
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
 data class Product(
@@ -21,13 +22,13 @@ data class Product(
             "imageUrl" to imageUrl,
         ).also {
             if (discountPrice != null) {
-                it["discountPrice"] = discountPrice.toString()
+                it["discountPrice"] = discountPrice
             }
         }
     }
 }
 
-fun QueryDocumentSnapshot.toProduct(): Product {
+fun DocumentSnapshot.toProduct(): Product {
     var discountPrice: Int? = null
     try {
         discountPrice = this.getLong("discountPrice")?.toInt()
@@ -38,10 +39,10 @@ fun QueryDocumentSnapshot.toProduct(): Product {
 
     return Product(
         id = this.id,
-        name = this.data["name"] as String,
+        name = this.data?.get("name") as String,
         price = this.getLong("price")?.toInt() ?: 0,
         discountPrice = discountPrice,
-        imageUrl = this.data["imageUrl"] as String,
+        imageUrl = this.data?.get("imageUrl") as String,
         quantity = this.getLong("quantity")?.toInt() ?: 0
     )
 }

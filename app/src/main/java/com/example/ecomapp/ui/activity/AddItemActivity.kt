@@ -87,7 +87,7 @@ class AddItemActivity : AppCompatActivity() {
                     etProductName.text.toString(),
                     etPrice.text.toString(),
                     discountPrice,
-                    etPrice.text.toString(),
+                    autoCompleteTextViewItemQuantity.text.toString(),
                     0,
                 )
                 viewModel.addProductResponse.observe(this@AddItemActivity) {

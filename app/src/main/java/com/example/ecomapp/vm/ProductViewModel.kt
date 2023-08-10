@@ -9,12 +9,15 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.ecomapp.domain.model.Product
 import com.example.ecomapp.domain.model.Response
+import com.example.ecomapp.domain.model.Response.Failure
 import com.example.ecomapp.domain.model.Response.Success
 import com.example.ecomapp.domain.model.Response.Loading
 import com.example.ecomapp.domain.repository.BooleanResponse
 import com.example.ecomapp.domain.repository.ProductRepository
+import com.example.ecomapp.domain.repository.Products
 import com.example.ecomapp.domain.repository.ProductsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -22,25 +25,28 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductViewModel @Inject constructor(private val repo: ProductRepository) : ViewModel() {
     private val _listOfProducts = MutableLiveData<ProductsResponse>(Loading)
-    private val _addProductResponse: MutableLiveData<BooleanResponse> = MutableLiveData(Success(false))
+    private val _addProductResponse: MutableLiveData<BooleanResponse> =
+        MutableLiveData(Success(false))
     private val _productNameError = MutableLiveData("")
     private val _priceError = MutableLiveData("")
     private val _discountPriceError = MutableLiveData("")
     private val _quantityError = MutableLiveData("")
+    private val _productsInCart = MutableLiveData<MutableList<Product>>(mutableListOf())
     val listOfProducts: LiveData<ProductsResponse>
         get() = _listOfProducts
     val addProductResponse: LiveData<BooleanResponse>
         get() = _addProductResponse
 
-     val productNameError: LiveData<String>
-         get() = _productNameError
-     val priceError: LiveData<String>
-         get() = _priceError
-     val discountPriceError: LiveData<String>
-         get() = _discountPriceError
-     val quantityError: LiveData<String>
-         get() = _quantityError
-
+    val productNameError: LiveData<String>
+        get() = _productNameError
+    val priceError: LiveData<String>
+        get() = _priceError
+    val discountPriceError: LiveData<String>
+        get() = _discountPriceError
+    val quantityError: LiveData<String>
+        get() = _quantityError
+    val productsInCart:LiveData<out Products>
+        get() = _productsInCart
 
 
 
@@ -52,8 +58,7 @@ class ProductViewModel @Inject constructor(private val repo: ProductRepository) 
         imgRes: Int,
     ) = viewModelScope.launch {
         _addProductResponse.value = Loading
-        if ( validateFields(productName, price, discountPrice, quantity) )
-        {
+        if (validateFields(productName, price, discountPrice, quantity)) {
             try {
                 repo.addProduct(
                     Product(
@@ -69,12 +74,21 @@ class ProductViewModel @Inject constructor(private val repo: ProductRepository) 
 
                 }
             } catch (e: Exception) {
-                Log.w("Adding product" , "failed", e)
+                Log.w("Adding product", "failed", e)
             }
         }
     }
-    fun resetAddProductResponse() { _addProductResponse.value = Success(false) }
-    private fun validateFields(productName: String, price: String, discountPrice: String?, quantity: String): Boolean {
+
+    fun resetAddProductResponse() {
+        _addProductResponse.value = Success(false)
+    }
+
+    private fun validateFields(
+        productName: String,
+        price: String,
+        discountPrice: String?,
+        quantity: String
+    ): Boolean {
 
         var fieldsAreValid = true
         val condition = Pattern.compile("[^a-z0-9]", Pattern.CASE_INSENSITIVE)
@@ -82,38 +96,35 @@ class ProductViewModel @Inject constructor(private val repo: ProductRepository) 
         val p = Pattern.compile(
             "[^a-z0-9 ]", Pattern.CASE_INSENSITIVE
         )
-        val m =  p.matcher(productName)
+        val m = p.matcher(productName)
 
         if (productName.isEmpty()) {
             fieldsAreValid = false
             _productNameError.value = "product name cannot be empty."
-        }
-        else if (condition.matcher(productName).find()) {
+        } else if (condition.matcher(productName).find()) {
             fieldsAreValid = false
             _productNameError.value = "product name cannot contain special characters or spaces."
         } else if (productName.length < 2) {
             fieldsAreValid = false
             _productNameError.value = "product name must be at least 2 characters."
-        }
-        else {
+        } else {
             _productNameError.value = ""
         }
 
         if (price.isEmpty()) {
             fieldsAreValid = false
             _priceError.value = "price cannot be empty."
-        }
-        else {
+        } else {
             _priceError.value = ""
         }
 
         try {
             var checkingPrice = price.toInt()
-        } catch (e : NumberFormatException) {
+        } catch (e: NumberFormatException) {
             _priceError.value = "enter a valid integer"
         }
 
-        if ( discountPrice != null ) {
+        if (discountPrice != null) {
 
             if (discountPrice.isEmpty()) {
                 fieldsAreValid = false
@@ -145,12 +156,30 @@ class ProductViewModel @Inject constructor(private val repo: ProductRepository) 
     }
 
 
-    fun loadProducts() = viewModelScope.launch{
+    fun loadProducts() = viewModelScope.launch {
         _listOfProducts.value = Loading
         repo.getAllProducts().asFlow().collect {
-            _listOfProducts.value = it
+
+            when (it) {
+                is Success -> _listOfProducts.value = Success(it.data.sortedBy { p -> p.name })
+                else -> _listOfProducts.value = it
+
+
+            }
         }
     }
 
-
+    val addToCart =  { id: String ->
+        viewModelScope.launch {
+        repo.getProduct(id).asFlow().collect {response ->
+            val res = if(response is Success) {response.data.name} else {
+                "no"
+            }
+            Log.d("debug", res)
+            if(response is Success){
+                _productsInCart.value?.add(response.data)
+            }
+        }
+    }
+    }
 }

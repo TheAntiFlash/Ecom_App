@@ -6,10 +6,12 @@ import com.example.ecomapp.domain.model.Response
 
 typealias Products = List<Product>
 typealias ProductsResponse = Response<Products>
+typealias ProductResponse = Response<Product>
 typealias BooleanResponse = Response<Boolean>
 
 interface ProductRepository {
     fun getAllProducts() : LiveData<ProductsResponse>
     suspend fun addProduct(product: Product) : LiveData<BooleanResponse>
+    fun getProduct(id: String): LiveData<ProductResponse>
 
 }

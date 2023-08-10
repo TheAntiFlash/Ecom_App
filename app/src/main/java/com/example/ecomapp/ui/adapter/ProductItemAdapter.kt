@@ -22,9 +22,10 @@ import com.example.ecomapp.domain.repository.Products
 import com.example.ecomapp.ui.model.ProductItemUiModel
 import com.google.common.io.Resources
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Job
 
 
-class ProductItemAdapter() :
+class ProductItemAdapter(private val addToCart: (id: String) -> Job) :
     RecyclerView.Adapter<ProductItemAdapter.ProductViewHolder>() {
     private var productsList: List<Product> = listOf()
 
@@ -38,17 +39,14 @@ class ProductItemAdapter() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = RecyclerCardViewDesignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ProductViewHolder(view)
+        return ProductViewHolder(view, addToCart)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val productItemUi = productsList[position]
-
         holder.apply {
             bind(productsList[position])
 
         }
-
     }
 
 
@@ -69,7 +67,7 @@ class ProductItemAdapter() :
 
 
 
-    inner class ProductViewHolder(val binding : RecyclerCardViewDesignBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ProductViewHolder(val binding : RecyclerCardViewDesignBinding, val addToCart: (id: String) -> Job) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.product = product
 
@@ -87,7 +85,9 @@ class ProductItemAdapter() :
 
         init {
             binding.addToCartButton.setOnClickListener {
-                Toast.makeText(it.context, binding.tvProductTitle.text, Toast.LENGTH_SHORT).show()
+                Toast.makeText(it.context, binding.product?.id, Toast.LENGTH_SHORT).show()
+
+                binding.product?.id?.let { id -> addToCart(id) }
             }
         }
     }
